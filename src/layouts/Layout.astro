@@ -42,9 +42,8 @@ const jsonLd = {
   email: site.email,
   address: {
     '@type': 'PostalAddress',
-    addressLocality: site.addressLocality,
-    addressRegion: site.addressRegion,
-    postalCode: site.postalCode,
+    addressLocality: site.location.locality,
+    addressRegion: site.location.region,
     addressCountry: 'US',
   },
   areaServed: {
@@ -82,9 +81,8 @@ const jsonLd = {
     <link rel="preload" as="font" type="font/woff2" href={newsreaderRegular} crossorigin="anonymous" />
     <link rel="preload" as="font" type="font/woff2" href={newsreaderMedium} crossorigin="anonymous" />
 
-    <!-- Favicon slot: swap favicon.svg (and add .ico / apple-touch-icon) when brand assets land. -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
@@ -101,7 +99,7 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={site.indexingEnabled ? 'index, follow' : 'noindex, nofollow'} />
     <meta name="theme-color" content="#faf9f6" />
     <meta name="generator" content={Astro.generator} />
 

@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ReviewField from '../components/ReviewField.astro';
+import { legalContent } from '../data/siteContent';
+const content = legalContent.disclaimer;
+---
+
+<Layout title="Disclaimer | McDaniel Group" description="Draft website disclaimer for McDaniel Group." canonicalPath="/disclaimer">
+  <article class="page-shell section-space max-w-4xl">
+    <p class="eyebrow">Legal information</p>
+    <h1 class="mt-4 font-serif text-4xl font-medium">{content.title}</h1>
+    <ReviewField value={content.intro} class="body-copy mt-6" />
+    {content.sections.map(([heading, text]) => <section class="mt-9 border-t border-rule pt-6"><h2 class="font-serif text-2xl font-medium">{heading}</h2><p class="body-copy mt-3">{text}</p></section>)}
+  </article>
+</Layout>

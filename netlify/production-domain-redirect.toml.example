@@ -1,0 +1,6 @@
+# Enable only after the production custom domain is connected in Netlify.
+[[redirects]]
+  from = "https://mcdaniel-group.netlify.app/*"
+  to = "https://www.mcdanielgrp.com/:splat"
+  status = 301
+  force = true

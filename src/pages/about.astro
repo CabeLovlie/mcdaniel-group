@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+import HeadshotPlaceholder from '../components/HeadshotPlaceholder.astro';
+import ReviewField from '../components/ReviewField.astro';
+import { profile, site } from '../data/siteContent';
+---
+
+<Layout title="About Doug McDaniel | McDaniel Group" description="Learn about Doug McDaniel and McDaniel Group's forensic accounting, valuation, and economic-loss work." canonicalPath="/about">
+  <section class="page-shell section-space">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
+      <div>
+        <p class="eyebrow">About McDaniel Group</p>
+        <h1 class="mt-4 font-serif text-4xl font-medium leading-tight sm:text-5xl lg:text-6xl">Doug McDaniel</h1>
+        <ReviewField value={profile.title} class="mt-4 font-sans text-lg text-ink-secondary" />
+        <ReviewField value={profile.longBio} class="body-copy mt-8 max-w-[63ch]" />
+        <p class="body-copy mt-5 max-w-[63ch]">McDaniel Group provides independent financial analysis for attorneys and businesses facing disputed transactions, valuation questions, and economic-loss issues.</p>
+      </div>
+      <HeadshotPlaceholder name={site.contactName} label={profile.headshot.label} />
+    </div>
+  </section>
+
+  <section class="border-y border-rule bg-paper-dim">
+    <div class="page-shell section-space">
+      <p class="eyebrow">Credentials & experience</p>
+      <dl class="mt-8 grid gap-x-12 gap-y-7 md:grid-cols-2">
+        {profile.credentials.map(([term, detail]) => (
+          <div class="border-t border-rule pt-4">
+            <dt class="font-sans text-sm font-medium text-ink">{term}</dt>
+            <dd class="mt-2 font-sans text-sm leading-relaxed text-ink-secondary"><ReviewField value={detail} review /></dd>
+          </div>
+        ))}
+      </dl>
+      <ReviewField value="[Add representative engagement history, publications, speaking experience, or court qualifications once confirmed.]" class="mt-8 text-sm text-ink-secondary" />
+      <div class="button-secondary mt-8 w-fit opacity-60" aria-disabled="true"><span>{profile.cv.label} <span class="text-xs">[PDF to add]</span></span></div>
+    </div>
+  </section>
+
+  <section class="page-shell section-space">
+    <h2 class="font-serif text-3xl font-medium">Start with the financial question.</h2>
+    <p class="body-copy mt-5 max-w-[62ch]">An initial conversation can clarify the question, timing, available records, and whether McDaniel Group is a fit for the matter.</p>
+    <a href="/contact" class="button-primary mt-8">Check fit and availability</a>
+  </section>
+</Layout>

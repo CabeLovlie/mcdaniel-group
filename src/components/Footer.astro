@@ -13,8 +13,8 @@ const year = new Date().getFullYear();
         <Logo />
       </a>
       <p class="mt-6 max-w-md font-serif text-[0.95rem] leading-relaxed text-ink-secondary">
-        Independent financial analysis for attorneys and businesses. Forensic accounting, business valuation,
-        and economic loss reports and testimony, based in Bellevue, Washington.
+        Independent financial analysis for attorneys and businesses, including forensic accounting, business valuation,
+        and economic-loss analysis.
       </p>
     </div>
 
@@ -34,7 +34,7 @@ const year = new Date().getFullYear();
       <address class="mt-4 space-y-3 font-sans text-sm not-italic">
         <p class="flex items-start gap-3">
           <Icon name="map-pin" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-          <span class="text-ink">{site.addressLine}</span>
+          <span class="text-ink">{site.location.publicLabel}</span>
         </p>
         <p>
           <a href={site.phoneHref} class="flex items-start gap-3 text-ink hover:text-accent">
@@ -59,7 +59,7 @@ const year = new Date().getFullYear();
   <div class="border-t border-rule">
     <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 font-sans text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
       <p>&copy; {year} McDaniel Group. All rights reserved.</p>
-      <p>Bellevue, Washington</p>
+      <p><a href="/privacy" class="hover:text-ink">Privacy</a> <span aria-hidden="true">·</span> <a href="/disclaimer" class="hover:text-ink">Disclaimer</a></p>
     </div>
   </div>
 </footer>

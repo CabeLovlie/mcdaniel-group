@@ -70,37 +70,4 @@ import { site, navLinks } from '../data/site';
   </nav>
 </header>
 
-<script>
-  const toggle = document.getElementById('menu-toggle');
-  const menu = document.getElementById('mobile-menu');
-
-  if (toggle && menu) {
-    const openIcon = toggle.querySelector<HTMLElement>('[data-icon="open"]');
-    const closeIcon = toggle.querySelector<HTMLElement>('[data-icon="close"]');
-
-    const setOpen = (open: boolean) => {
-      menu.hidden = !open;
-      toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      if (openIcon) openIcon.hidden = open;
-      if (closeIcon) closeIcon.hidden = !open;
-    };
-
-    toggle.addEventListener('click', () => setOpen(!!menu.hidden));
-
-    // Close after choosing a link (anchor links don't trigger a page load).
-    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !menu.hidden) {
-        setOpen(false);
-        toggle.focus();
-      }
-    });
-
-    // Reset if the viewport grows past the mobile breakpoint.
-    window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => {
-      if (e.matches) setOpen(false);
-    });
-  }
-</script>
+<script is:inline src="/scripts/navigation.js"></script>
