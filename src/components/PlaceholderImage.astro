@@ -1,0 +1,24 @@
+---
+// Flat, warm-gray stand-in for a real photograph. Fixed aspect ratio avoids
+// layout shift when real photography lands.
+//
+// Treatment note for whoever shoots the real photos: natural light, desaturated
+// or true-to-life color, no glossy corporate-stock gloss or posed handshakes —
+// this site's whole design language is restrained, and the photography should
+// read the same way.
+interface Props {
+  alt: string;
+  aspect?: string; // Tailwind aspect class, e.g. "aspect-[3/4]" for a portrait
+  class?: string;
+}
+const { alt, aspect = 'aspect-[4/3]', class: className = '' } = Astro.props;
+---
+
+<div
+  role="img"
+  aria-label={alt}
+  data-placeholder-image
+  class:list={['flex w-full items-center justify-center border border-rule bg-placeholder p-6 text-center', aspect, className]}
+>
+  <span class="font-sans text-xs uppercase tracking-[0.1em] text-ink-secondary">{alt}</span>
+</div>

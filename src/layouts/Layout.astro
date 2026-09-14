@@ -1,0 +1,123 @@
+---
+import '@fontsource/newsreader/400.css';
+import '@fontsource/newsreader/500.css';
+import '@fontsource/newsreader/400-italic.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '../styles/global.css';
+
+// Preload the two serif weights used above the fold (hero headline at 500,
+// body copy at 400) so the reading face is present at first paint — avoids
+// a flash of fallback serif and the reflow that comes with it.
+import newsreaderRegular from '@fontsource/newsreader/files/newsreader-latin-400-normal.woff2?url';
+import newsreaderMedium from '@fontsource/newsreader/files/newsreader-latin-500-normal.woff2?url';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path only, e.g. "/contact" — resolved against Astro.site for the canonical URL. */
+  canonicalPath?: string;
+}
+
+const { title, description, canonicalPath = Astro.url.pathname } = Astro.props;
+
+const canonical = new URL(canonicalPath, Astro.site ?? site.url).href;
+const ogImage = new URL('/og-image.png', Astro.site ?? site.url).href;
+
+// Structured data for the firm. Rendered on every page so search engines see a
+// consistent business entity regardless of which page is crawled first.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AccountingService',
+  name: site.name,
+  description:
+    'Forensic accounting, business valuation, and economic loss expert reports and testimony for law firms and companies in Bellevue, Washington.',
+  url: site.url,
+  telephone: `+1-${site.phone}`,
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.addressLocality,
+    addressRegion: site.addressRegion,
+    postalCode: site.postalCode,
+    addressCountry: 'US',
+  },
+  areaServed: {
+    '@type': 'State',
+    name: 'Washington',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '08:00',
+      closes: '17:00',
+    },
+  ],
+  knowsAbout: [
+    'Forensic Accounting',
+    'Business Valuations',
+    'Fraud Investigations',
+    'Economic Loss Calculations',
+    'Expert Witness Testimony',
+    'Construction and Real Estate Advisory',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="preload" as="font" type="font/woff2" href={newsreaderRegular} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={newsreaderMedium} crossorigin="anonymous" />
+
+    <!-- Favicon slot: swap favicon.svg (and add .ico / apple-touch-icon) when brand assets land. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#faf9f6" />
+    <meta name="generator" content={Astro.generator} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+  <body class="bg-paper font-sans text-ink antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-paper"
+    >
+      Skip to main content
+    </a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

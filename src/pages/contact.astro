@@ -1,0 +1,178 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { site } from '../data/site';
+import { services } from '../data/services';
+
+const inputClass = 'mt-2 block w-full border border-rule-strong bg-paper px-3.5 py-3 font-sans text-base text-ink focus:border-accent';
+const labelClass = 'block font-sans text-sm font-medium text-ink';
+---
+
+<Layout title="Contact Doug McDaniel | McDaniel Group — Bellevue, WA" description="Discuss forensic accounting, business valuation, or economic loss analysis with Doug McDaniel. Call 206-383-1471 or prepare an email inquiry." canonicalPath="/contact">
+  <section class="page-shell pt-12 lg:pt-16">
+    <p class="eyebrow">Start a conversation</p>
+    <h1 class="mt-4 font-serif text-4xl font-medium leading-tight sm:text-5xl lg:text-6xl">Discuss your matter.</h1>
+    <p class="body-copy mt-6 max-w-[55ch] sm:text-xl">Contact Doug McDaniel with a brief overview of your financial question and any important deadlines.</p>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <a href={site.phoneHref} class="button-primary"><Icon name="phone" class="h-4 w-4" />Call {site.phone}</a>
+      <a href={site.emailHref} class="button-secondary"><Icon name="mail" class="h-4 w-4" />Email Doug directly</a>
+    </div>
+    <p class="mt-4 font-sans text-sm text-ink-secondary">{site.hours} Pacific time</p>
+  </section>
+
+  <section class="page-shell section-space pb-16 lg:pb-24">
+    <SectionHeader number="01" title="Prepare an inquiry" />
+    <div class="mt-8 grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+      <div>
+        <p id="form-help" class="body-copy">This form prepares a draft in your email app. Review it and send it there; the website does not send a message on your behalf.</p>
+        <p id="privacy-help" class="mt-4 font-sans text-sm leading-relaxed text-ink-secondary">Please provide only a general description. Do not include account numbers, confidential documents, or sensitive case details. A secure way to share records can be arranged after the initial conversation.</p>
+
+        <form id="contact-form" method="post" action="/contact" class="mt-7 grid gap-5 sm:grid-cols-2" aria-describedby="form-help privacy-help" novalidate>
+          <div class="sm:col-span-2">
+            <label for="name" class={labelClass}>Your name <span class="text-accent">(required)</span></label>
+            <input id="name" name="name" type="text" autocomplete="name" maxlength="120" required class={inputClass} />
+          </div>
+          <div>
+            <label for="email" class={labelClass}>Email <span class="text-accent">(required)</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" maxlength="180" required class={inputClass} />
+          </div>
+          <div>
+            <label for="phone" class={labelClass}>Phone <span class="text-ink-secondary">(optional)</span></label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="50" class={inputClass} />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="organization" class={labelClass}>Firm or organization <span class="text-ink-secondary">(optional)</span></label>
+            <input id="organization" name="organization" type="text" autocomplete="organization" maxlength="150" class={inputClass} />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="topic" class={labelClass}>Area of interest</label>
+            <select id="topic" name="topic" class={inputClass}>
+              <option value="">Not sure yet / general inquiry</option>
+              {services.map((service) => <option value={service.slug}>{service.title}</option>)}
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="message" class={labelClass}>Brief overview <span class="text-accent">(required)</span></label>
+            <textarea id="message" name="message" rows="5" maxlength="1200" required aria-describedby="message-help" class={inputClass}></textarea>
+            <p id="message-help" class="mt-2 text-xs leading-relaxed text-ink-secondary">What kind of help do you need, and is there a deadline? Up to 1,200 characters.</p>
+          </div>
+          <p id="form-error" class="font-sans text-sm font-medium text-accent sm:col-span-2" role="alert" hidden></p>
+          <div class="sm:col-span-2">
+            <button id="draft-button" type="submit" class="button-primary w-full sm:w-auto" disabled>Open email draft <Icon name="arrow-right" class="h-4 w-4" /></button>
+            <p class="mt-3 text-sm leading-relaxed text-ink-secondary">Opens your email app. Nothing is sent until you choose Send.</p>
+          </div>
+        </form>
+        <noscript><p class="body-copy mt-5">The draft helper needs JavaScript. Please <a class="underline" href={site.emailHref}>email Doug directly</a> or call {site.phone}.</p></noscript>
+        <section id="draft-result" class="mt-6 border border-rule p-5" aria-labelledby="draft-title" hidden>
+          <h3 id="draft-title" class="font-serif text-2xl font-medium">Your inquiry is ready to review</h3>
+          <p id="draft-status" role="status" class="mt-3 text-sm leading-relaxed text-ink-secondary"></p>
+          <p class="mt-3 text-sm leading-relaxed text-ink-secondary">If your email app did not open, copy the draft below into your email service and send it to <a href={site.emailHref} class="break-all underline">{site.email}</a>.</p>
+          <label for="draft-preview" class="mt-4 block text-sm font-medium">Your email draft</label>
+          <textarea id="draft-preview" readonly rows="9" class={inputClass}></textarea>
+          <button id="copy-draft" type="button" class="button-secondary mt-4">Copy email draft</button>
+          <p id="copy-status" class="mt-3 text-sm text-ink-secondary" role="status"></p>
+        </section>
+      </div>
+
+      <aside>
+        <figure>
+          <img src="/images/bellevue-960.webp" srcset="/images/bellevue-640.webp 640w, /images/bellevue-960.webp 960w" sizes="(min-width: 1024px) 460px, 95vw" width="960" height="640" alt="Downtown Bellevue skyline" loading="lazy" decoding="async" class="editorial-photo aspect-[4/3]" />
+          <figcaption class="photo-credit"><span>Bellevue, Washington</span><a href="https://unsplash.com/photos/a-group-of-tall-buildings-in-a-city-a_mlU1PbFIY" target="_blank" rel="noopener noreferrer">Zac Gudakov / Unsplash</a></figcaption>
+        </figure>
+        <div class="mt-7 border-t border-rule pt-6">
+          <h2 class="font-serif text-2xl font-medium">Based in Bellevue</h2>
+          <p class="body-copy mt-3">{site.addressLine}</p>
+          <p class="body-copy mt-2">Contact Doug to arrange a conversation and confirm meeting details.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Downtown+Bellevue+WA+98004" class="text-link mt-3" target="_blank" rel="noopener noreferrer">View downtown Bellevue on Google Maps <Icon name="arrow-right" class="h-4 w-4" /></a>
+        </div>
+        <div class="mt-7 border-t border-rule pt-6">
+          <h2 class="font-serif text-2xl font-medium">What happens next?</h2>
+          <ol class="body-copy mt-4 space-y-4">
+            <li>1. Share a brief description and your timing.</li>
+            <li>2. Discuss fit, availability, and the scope of the work.</li>
+            <li>3. Agree on next steps and how to share records.</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { site } from '../data/site';
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  const button = document.querySelector<HTMLButtonElement>('#draft-button');
+  const error = document.getElementById('form-error');
+  const result = document.getElementById('draft-result');
+  const status = document.getElementById('draft-status');
+  const preview = document.querySelector<HTMLTextAreaElement>('#draft-preview');
+  const topic = document.querySelector<HTMLSelectElement>('#topic');
+  const copyButton = document.querySelector<HTMLButtonElement>('#copy-draft');
+  const copyStatus = document.getElementById('copy-status');
+
+  if (form && button && error && result && status && preview && topic) {
+    const requestedTopic = new URLSearchParams(window.location.search).get('topic');
+    if (requestedTopic && Array.from(topic.options).some((option) => option.value === requestedTopic)) {
+      topic.value = requestedTopic;
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      result.hidden = true;
+      const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea'));
+      fields.forEach((field) => {
+        field.setCustomValidity(field.required && !field.value.trim() ? 'Please complete this field.' : '');
+        field.removeAttribute('aria-invalid');
+      });
+      if (!form.checkValidity()) {
+        const invalid = fields.filter((field) => !field.validity.valid);
+        invalid.forEach((field) => field.setAttribute('aria-invalid', 'true'));
+        error.textContent = 'Please enter your name, a valid email address, and a brief overview.';
+        error.hidden = false;
+        invalid[0]?.focus();
+        return;
+      }
+      error.hidden = true;
+      const data = new FormData(form);
+      const get = (key: string) => String(data.get(key) ?? '').trim();
+      const topicLabel = topic.selectedOptions[0].textContent?.trim() ?? 'General inquiry';
+      const subject = 'Website inquiry — ' + topicLabel;
+      const body = [
+        'Hello Doug,', '', get('message'), '',
+        'Name: ' + get('name'),
+        'Email: ' + get('email'),
+        'Phone: ' + (get('phone') || 'Not provided'),
+        'Organization: ' + (get('organization') || 'Not provided'),
+        'Area of interest: ' + topicLabel,
+      ].join('\n');
+      preview.value = 'To: ' + site.email + '\nSubject: ' + subject + '\n\n' + body;
+      result.hidden = false;
+      status.textContent = 'Opening your email app. Your inquiry has not been sent by this website.';
+      if (copyStatus) copyStatus.textContent = '';
+      window.location.href = site.emailHref + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+    form.addEventListener('input', (event) => {
+      const field = event.target;
+      if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+        field.setCustomValidity('');
+        field.removeAttribute('aria-invalid');
+      }
+      result.hidden = true;
+      error.hidden = true;
+    });
+    // Enable only after the handler is attached; a no-JS browser cannot submit a fallback form.
+    button.disabled = false;
+
+    copyButton?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(preview.value);
+        if (copyStatus) copyStatus.textContent = 'Draft copied. Paste it into your email service, review, and send.';
+      } catch {
+        preview.focus();
+        preview.select();
+        if (copyStatus) copyStatus.textContent = 'Select and copy the draft above using your keyboard or device menu.';
+      }
+    });
+  }
+</script>

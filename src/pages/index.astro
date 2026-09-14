@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { site } from '../data/site';
+import { services } from '../data/services';
+
+const steps = [
+  ['Initial assessment', 'Discuss the financial questions, available information, deadlines, and scope of the matter.'],
+  ['Document requests', 'Identify the records needed to investigate the facts and assess potential damages.'],
+  ['Analysis & reporting', 'Develop the financial analysis and explain the findings, assumptions, and supporting records.'],
+  ['Deposition & trial support', 'Review opposing expert work and support the presentation and examination of financial evidence.'],
+];
+const industries = ['Manufacturing', 'Distribution', 'Retail', 'Health care', 'Financial services', 'Real estate'];
+const profileDetails = [
+  ['Professional credentials', '[Credentials to confirm]'],
+  ['Years in practice', '[Experience to confirm]'],
+  ['Courts & jurisdictions', '[Jurisdictions to confirm]'],
+  ['Professional memberships', '[Memberships to confirm]'],
+];
+---
+
+<Layout title="McDaniel Group | Forensic Accounting & Business Valuations — Bellevue, WA" description="Forensic accounting, business valuations, and economic loss analysis for attorneys and businesses. Discuss your matter with Doug McDaniel in Bellevue, Washington." canonicalPath="/">
+  <section class="page-shell pt-12 lg:pt-16">
+    <div class="grid items-center gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-14">
+      <div>
+        <p class="eyebrow">Bellevue, Washington · For attorneys &amp; businesses</p>
+        <h1 class="mt-5 font-serif text-[2.6rem] font-medium leading-[1.08] tracking-[-0.02em] sm:text-5xl lg:text-[3.65rem]">Forensic Accounting &amp; Business Valuations</h1>
+        <p class="body-copy mt-6 max-w-[50ch] sm:text-xl">Clear financial findings.<br />A sound basis for your next decision.</p>
+        <p class="body-copy mt-4 max-w-[52ch]">McDaniel Group helps attorneys and businesses trace funds, value closely held companies, and quantify economic losses through independent financial analysis, clear expert reports, and testimony.</p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a href="/contact" class="button-primary">Discuss your matter <Icon name="arrow-right" class="h-4 w-4" /></a>
+          <a href={site.phoneHref} class="button-secondary"><Icon name="phone" class="h-4 w-4" /><span class="tabular-nums">{site.phone}</span></a>
+        </div>
+        <a href="#about" class="text-link mt-4">Meet Doug McDaniel <Icon name="arrow-right" class="h-3.5 w-3.5" /></a>
+      </div>
+      <figure>
+        <img src="/images/bellevue-960.webp" srcset="/images/bellevue-640.webp 640w, /images/bellevue-960.webp 960w, /images/bellevue-1600.webp 1600w" sizes="(min-width: 1024px) 440px, (min-width: 640px) 90vw, 100vw" width="960" height="640" alt="Glass towers in downtown Bellevue beneath a cloudy Pacific Northwest sky" fetchpriority="high" class="editorial-photo aspect-[4/3] lg:aspect-[4/5]" />
+        <figcaption class="photo-credit"><span>Downtown Bellevue, Washington</span><a href="https://unsplash.com/photos/a-group-of-tall-buildings-in-a-city-a_mlU1PbFIY" target="_blank" rel="noopener noreferrer">Photo: Zac Gudakov / Unsplash</a></figcaption>
+      </figure>
+    </div>
+    <div class="mt-10 grid gap-5 border-y border-rule py-6 sm:grid-cols-3 lg:mt-14">
+      {['Independent financial analysis', 'Clear expert reports', 'Support from discovery through trial'].map((item) => <p class="flex items-center gap-3 font-sans text-xs text-ink-secondary"><span class="h-1 w-1 shrink-0 bg-accent" aria-hidden="true"></span>{item}</p>)}
+    </div>
+  </section>
+
+  <section id="services" class="page-shell section-space">
+    <SectionHeader number="01" title="The financial questions behind your matter" />
+    <p class="body-copy mt-6 max-w-[65ch]">Whether the issue is a disputed transaction, a business interest, or a claimed loss, the work starts with a specific question and the records needed to answer it.</p>
+    <ol class="mt-8 grid gap-x-12 md:grid-cols-2">
+      {services.map((service, index) => (
+        <li class="border-t border-rule py-7">
+          <p class="eyebrow"><span class="mr-3 text-accent tabular-nums">{String(index + 1).padStart(2, '0')}</span>{service.question}</p>
+          <h3 class="mt-3 font-serif text-2xl font-medium"><a href={'/services/' + service.slug} class="hover:text-accent">{service.title}</a></h3>
+          <p class="body-copy mt-3 max-w-[48ch]">{service.description}</p>
+          <a href={'/services/' + service.slug} class="text-link mt-2" aria-label={'Explore ' + service.title}>Explore this service <Icon name="arrow-right" class="h-4 w-4" /></a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section id="counsel" class="page-shell section-space">
+    <SectionHeader number="02" title="Working with counsel" />
+    <div class="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-14">
+      <div>
+        <h3 class="max-w-[24ch] font-serif text-3xl font-medium leading-tight sm:text-4xl">From the first financial question to the expert report.</h3>
+        <p class="body-copy mt-5">McDaniel Group assists counsel in evaluating financial issues, assessing potential damages, and examining the evidence throughout a dispute.</p>
+        <figure class="mt-8">
+          <img src="/images/document-review-960.webp" srcset="/images/document-review-640.webp 640w, /images/document-review-960.webp 960w" sizes="(min-width: 1024px) 520px, 95vw" width="960" height="701" alt="Close-up of hands reviewing documents and handwritten notes at a desk" loading="lazy" decoding="async" class="editorial-photo aspect-[3/2]" />
+          <figcaption class="photo-credit"><span>Document review · illustrative photograph</span><a href="https://www.pexels.com/photo/documents-on-a-table-7731348/" target="_blank" rel="noopener noreferrer">Mikhail Nilov / Pexels</a></figcaption>
+        </figure>
+      </div>
+      <ol class="divide-y divide-rule border-t border-rule">
+        {steps.map(([title, description], index) => (
+          <li class="grid grid-cols-[2rem_1fr] gap-4 py-6">
+            <span class="pt-1 font-sans text-sm text-accent">0{index + 1}</span>
+            <div><h3 class="font-serif text-2xl font-medium">{title}</h3><p class="body-copy mt-2">{description}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="about" class="page-shell section-space">
+    <SectionHeader number="03" title="Meet Doug McDaniel" />
+    <div id="expert" class="mt-8 grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
+      <div class="border-l-2 border-accent py-2 pl-6">
+        <p class="eyebrow">McDaniel Group · Bellevue, Washington</p>
+        <h3 class="mt-4 font-serif text-4xl font-medium">{site.contactName}</h3>
+        <p class="review-field mt-2">[Professional title to confirm]</p>
+        <p class="body-copy mt-5">Forensic accounting.<br />Business valuation.<br />Economic loss analysis.</p>
+        <a href={site.emailHref} class="text-link mt-5">Email Doug <Icon name="arrow-right" class="h-4 w-4" /></a>
+        <p class="review-field mt-5 border-t border-rule pt-4">[Doug’s headshot and CV to be supplied]</p>
+      </div>
+      <div>
+        <p class="body-copy">Choosing financial support for a dispute starts with understanding the question at issue. Contact Doug McDaniel to discuss your matter, its timing, and the kind of analysis you need.</p>
+        <p class="body-copy mt-5">McDaniel Group provides forensic accounting, valuation, and economic loss analysis for attorneys and businesses. The work brings together the financial records, the relevant assumptions, and a clear explanation of the findings.</p>
+        <p class="review-field mt-5">[Add Doug’s professional background, education, and areas of specialization here.]</p>
+        <dl class="mt-7 grid grid-cols-1 gap-6 border-t border-rule pt-6 sm:grid-cols-2">
+          {profileDetails.map(([label, value]) => <div><dt class="eyebrow">{label}</dt><dd class="review-field mt-2">{value}</dd></div>)}
+        </dl>
+        <a href="/contact?topic=expert-witness" class="text-link mt-5">Ask about relevant experience and availability <Icon name="arrow-right" class="h-4 w-4" /></a>
+      </div>
+    </div>
+    <div class="mt-10 border-t border-rule pt-6">
+      <p class="eyebrow">Industries served</p>
+      <ul class="mt-4 flex flex-wrap gap-x-7 gap-y-3 font-serif text-lg text-ink-secondary">{industries.map((industry) => <li>{industry}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="page-shell section-space">
+    <SectionHeader number="04" title="Representative matters" />
+    <p class="body-copy mt-6 max-w-[65ch]">Selected examples will show the financial question, the analysis performed, and how the findings were presented.</p>
+    <p class="review-field mt-3">Review draft: the entries below are content placeholders, not completed client engagements.</p>
+    <div class="mt-8 grid gap-8 md:grid-cols-3">
+      {[
+        ['Tracing disputed funds', '[Add an approved, anonymized matter: the issue, records examined, and findings delivered.]'],
+        ['Valuing a business interest', '[Add an approved, anonymized valuation matter: the purpose, analysis, and work delivered.]'],
+        ['Assessing economic losses', '[Add an approved, anonymized damages matter: the financial question, calculation, and report.]'],
+      ].map(([title, placeholder]) => <article class="border-t border-rule py-6"><h3 class="font-serif text-2xl font-medium">{title}</h3><p class="review-field mt-4">{placeholder}</p></article>)}
+    </div>
+  </section>
+
+  <section class="page-shell section-space pb-16 lg:pb-24">
+    <div class="grid gap-8 border-y border-rule py-10 md:grid-cols-[1fr_auto] md:items-center">
+      <div><p class="eyebrow">Start a conversation</p><h2 class="mt-3 font-serif text-3xl font-medium sm:text-4xl">Bring clarity to your financial questions.</h2><p class="body-copy mt-3 max-w-[60ch]">Share a brief overview and any key deadlines. Doug can discuss the next steps with you.</p></div>
+      <a href="/contact" class="button-primary">Discuss your matter <Icon name="arrow-right" class="h-4 w-4" /></a>
+    </div>
+  </section>
+</Layout>

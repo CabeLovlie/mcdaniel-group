@@ -1,0 +1,65 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site, navLinks } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-rule bg-paper-dim">
+  <div class="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-12 lg:px-8">
+    <div class="lg:col-span-6">
+      <a href="/" class="inline-block rounded-sm">
+        <Logo />
+      </a>
+      <p class="mt-6 max-w-md font-serif text-[0.95rem] leading-relaxed text-ink-secondary">
+        Independent financial analysis for attorneys and businesses. Forensic accounting, business valuation,
+        and economic loss reports and testimony, based in Bellevue, Washington.
+      </p>
+    </div>
+
+    <div class="lg:col-span-2">
+      <h2 class="font-sans text-xs font-medium uppercase tracking-[0.12em] text-ink-secondary">Navigate</h2>
+      <ul class="mt-4 space-y-3 font-sans text-sm">
+        {navLinks.map((link) => (
+          <li>
+            <a href={link.href} class="text-ink transition-colors hover:text-accent">{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="lg:col-span-4">
+      <h2 class="font-sans text-xs font-medium uppercase tracking-[0.12em] text-ink-secondary">Contact</h2>
+      <address class="mt-4 space-y-3 font-sans text-sm not-italic">
+        <p class="flex items-start gap-3">
+          <Icon name="map-pin" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+          <span class="text-ink">{site.addressLine}</span>
+        </p>
+        <p>
+          <a href={site.phoneHref} class="flex items-start gap-3 text-ink hover:text-accent">
+            <Icon name="phone" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+            <span class="tabular-nums">{site.phone}</span>
+          </a>
+        </p>
+        <p>
+          <a href={site.emailHref} class="flex items-start gap-3 break-all text-ink hover:text-accent">
+            <Icon name="mail" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+            <span>{site.email}</span>
+          </a>
+        </p>
+        <p class="flex items-start gap-3">
+          <Icon name="clock" class="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+          <span class="text-ink">{site.hoursShort}</span>
+        </p>
+      </address>
+    </div>
+  </div>
+
+  <div class="border-t border-rule">
+    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 font-sans text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+      <p>&copy; {year} McDaniel Group. All rights reserved.</p>
+      <p>Bellevue, Washington</p>
+    </div>
+  </div>
+</footer>

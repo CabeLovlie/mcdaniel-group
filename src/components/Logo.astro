@@ -1,0 +1,15 @@
+---
+// Plain text wordmark. Replace with the firm's mark when brand assets exist —
+// the editorial design language favors typography over a boxed monogram.
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['flex flex-col leading-none', className]}>
+  <span class="font-serif text-xl font-medium tracking-tight text-ink">McDaniel Group</span>
+  <span class="mt-1 font-sans text-[0.65rem] font-medium uppercase tracking-[0.14em] text-ink-secondary">
+    Forensic Accounting
+  </span>
+</span>

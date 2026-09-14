@@ -1,0 +1,20 @@
+---
+// The organizing device for the page: a hairline rule, then a numbered,
+// left-aligned title beneath it — the way a forensic report or legal brief
+// numbers its sections. Used for every major section (01–05).
+interface Props {
+  number: string; // e.g. "01"
+  title: string;
+  id?: string;
+  class?: string;
+}
+const { number, title, id, class: className = '' } = Astro.props;
+---
+
+<div id={id} class:list={['border-t border-rule pt-5 sm:pt-6', className]}>
+  <h2 class="flex flex-wrap items-baseline gap-x-3">
+    <span class="font-sans text-sm font-medium tracking-[0.12em] text-accent tabular-nums">{number}</span>
+    <span class="font-sans text-sm tracking-[0.12em] text-ink-faint">/</span>
+    <span class="font-serif text-2xl font-medium text-ink sm:text-3xl">{title}</span>
+  </h2>
+</div>
