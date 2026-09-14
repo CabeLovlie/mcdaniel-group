@@ -1,0 +1,11 @@
+---
+interface Props { current: string; path: string; }
+const { current, path } = Astro.props;
+const jsonLd = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+  { '@type': 'ListItem', position: 2, name: 'Services', item: new URL('/#services', Astro.site).href },
+  { '@type': 'ListItem', position: 3, name: current, item: new URL(path, Astro.site).href },
+]};
+---
+<nav aria-label="Breadcrumb" class="font-sans text-sm text-ink-secondary"><ol class="flex flex-wrap gap-2"><li><a class="hover:text-accent" href="/">Home</a></li><li aria-hidden="true">/</li><li><a class="hover:text-accent" href="/#services">Services</a></li><li aria-hidden="true">/</li><li aria-current="page">{current}</li></ol></nav>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

@@ -1,0 +1,14 @@
+---
+interface Props { items: readonly (readonly [string, string])[]; }
+const { items } = Astro.props;
+---
+<div class="divide-y divide-rule border-y border-rule">
+  {items.map(([question, answer]) => (
+    <details class="faq-item group py-5">
+      <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 font-serif text-xl font-medium text-ink marker:content-none">
+        {question}<span class="font-sans text-accent transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+      </summary>
+      <p class="body-copy max-w-[70ch] pt-4">{answer}</p>
+    </details>
+  ))}
+</div>
