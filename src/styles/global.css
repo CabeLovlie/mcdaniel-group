@@ -3,7 +3,7 @@
 /*
  * Editorial, document-inspired design tokens — the visual language of a
  * forensic report or legal brief. Ink on paper, one restrained accent.
- * No gradients, no drop shadows, no colored bands.
+ * No gradients or drop shadows; color is used in restrained fields and accents.
  */
 @theme {
   --color-paper: #faf9f6;
@@ -32,6 +32,22 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: clip;
+}
+
+/*
+ * The homepage is complete with its static poster. Approved video sources can
+ * be enabled in siteContent.ts; motion stays desktop-only and reduced-motion
+ * visitors retain the still image.
+ */
+.hero-video { display: none; }
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .hero-video { display: block; }
+  .hero-poster-with-video { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

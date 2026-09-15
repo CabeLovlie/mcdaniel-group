@@ -2,46 +2,96 @@
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import FAQList from '../../components/FAQList.astro';
+import ReviewField from '../../components/ReviewField.astro';
 import { services } from '../../data/services';
-import { site } from '../../data/siteContent';
+import { site, serviceQualificationPlaceholder } from '../../data/siteContent';
+
 export function getStaticPaths() {
   return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
 }
+
 const { service } = Astro.props;
-const serviceFaq = [['What information is useful for an initial conversation?', service.records]] as const;
-const serviceJsonLd = { '@context': 'https://schema.org', '@type': 'Service', name: service.title, description: service.description, provider: { '@type': 'AccountingService', name: site.name, url: site.url }, areaServed: { '@type': 'City', name: site.location.locality } };
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.title,
+  description: service.description,
+  provider: { '@type': 'AccountingService', name: site.name, url: site.url },
+  areaServed: { '@type': 'City', name: site.location.locality },
+};
 ---
 
 <Layout title={service.title + ' | McDaniel Group — Bellevue, WA'} description={service.description} canonicalPath={'/services/' + service.slug}>
-  <section class="page-shell pt-8 pb-16 lg:pb-24">
+  <section class="page-shell pb-16 pt-8 lg:pb-24">
     <Breadcrumbs current={service.title} path={'/services/' + service.slug} />
-    <div class="border-b border-rule pb-10 pt-8 lg:pb-14">
+
+    <header class="border-b border-rule pb-10 pt-8 lg:pb-14">
       <p class="eyebrow">McDaniel Group · {site.location.locality}, {site.location.region}</p>
       <h1 class="mt-5 max-w-[22ch] font-serif text-4xl font-medium leading-tight sm:text-5xl lg:text-6xl">{service.title}</h1>
-      <p class="mt-5 font-serif text-2xl text-accent">{service.question}</p>
+      <p class="mt-5 max-w-[36ch] font-serif text-2xl text-accent">{service.question}</p>
       <p class="body-copy mt-5 max-w-[65ch] sm:text-xl">{service.overview}</p>
-      <a href={'/contact?topic=' + service.slug} class="button-primary mt-7">Check fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a>
-    </div>
-    <div class="grid gap-12 pt-10 lg:grid-cols-[1.35fr_1fr] lg:gap-20">
+      <a href={'/contact?topic=' + service.slug} class="button-primary mt-7">Discuss this service <Icon name="arrow-right" class="h-4 w-4" /></a>
+    </header>
+
+    <div class="grid gap-12 pt-10 lg:grid-cols-[1.25fr_0.75fr] lg:gap-20">
       <div>
-        <h2 class="font-serif text-3xl font-medium">Where this work can help</h2>
-        <ul class="mt-5 divide-y divide-rule border-y border-rule">{service.matters.map((matter: string) => <li class="body-copy py-4">{matter}</li>)}</ul>
-        <h2 class="mt-10 font-serif text-3xl font-medium">The work, explained</h2>
-        <ol class="mt-5 space-y-5">{service.work.map((step: string, i: number) => <li class="flex gap-5"><span class="pt-1 text-sm text-accent">0{i + 1}</span><p class="body-copy">{step}</p></li>)}</ol>
-        <h2 class="mt-12 font-serif text-3xl font-medium">Questions about this service</h2>
-        <div class="mt-5"><FAQList items={serviceFaq} /></div>
+        <section aria-labelledby="common-matters">
+          <p class="eyebrow">When this service is relevant</p>
+          <h2 id="common-matters" class="mt-3 font-serif text-3xl font-medium">Common matters</h2>
+          <ul class="mt-5 divide-y divide-rule border-y border-rule">
+            {service.matters.map((matter: string) => <li class="body-copy py-4">{matter}</li>)}
+          </ul>
+        </section>
+
+        <section class="mt-12" aria-labelledby="analysis-cover">
+          <p class="eyebrow">What Doug analyzes</p>
+          <h2 id="analysis-cover" class="mt-3 font-serif text-3xl font-medium">The work, in context</h2>
+          <ol class="mt-6 space-y-6">
+            {service.work.map((step: string, index: number) => (
+              <li class="grid grid-cols-[2rem_1fr] gap-4 border-t border-rule pt-5">
+                <span class="font-sans text-sm text-accent tabular-nums">0{index + 1}</span>
+                <p class="body-copy">{step}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
       </div>
-      <aside class="self-start border-l-2 border-accent pl-6">
-        <h2 class="font-serif text-2xl font-medium">Planning the first conversation</h2>
-        <p class="body-copy mt-4">Start with a general description of the issue and any deadlines. Scope and availability can then be discussed.</p>
-        <h3 class="eyebrow mt-7">Relevant records</h3>
-        <p class="body-copy mt-3">{service.records}</p>
-        <p class="mt-5 font-sans text-sm leading-relaxed text-ink-secondary">Please arrange a secure transfer method before sending confidential records.</p>
-        <a href={'/contact?topic=' + service.slug} class="text-link mt-4">Check fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a>
+
+      <aside class="self-start border-l-2 border-accent pl-6 lg:sticky lg:top-24">
+        <section>
+          <p class="eyebrow">Typical inputs</p>
+          <h2 class="mt-3 font-serif text-2xl font-medium">Records and information</h2>
+          <p class="body-copy mt-4">{service.records}</p>
+          <p class="mt-4 font-sans text-sm leading-relaxed text-ink-secondary">Arrange a secure transfer method before sending confidential records.</p>
+        </section>
+
+        <section class="mt-8 border-t border-rule pt-6">
+          <p class="eyebrow">Potential work products</p>
+          <p class="body-copy mt-3">Depending on the engagement, the work may support a financial analysis, written report, rebuttal review, consultation, deposition, or testimony.</p>
+        </section>
+
+        <section class="mt-8 border-t border-rule pt-6">
+          <p class="eyebrow">Related qualifications</p>
+          <ReviewField value={serviceQualificationPlaceholder} label="Relevant qualifications to confirm" class="mt-3" />
+        </section>
       </aside>
     </div>
-    <div class="mt-14 border-t border-rule pt-8"><h2 class="eyebrow">Related practice areas</h2><ul class="mt-4 flex flex-wrap gap-x-6 gap-y-2">{services.filter((other) => other.slug !== service.slug).map((other) => <li><a class="text-link" href={'/services/' + other.slug}>{other.title}</a></li>)}</ul></div>
+
+    <section class="mt-14 grid gap-6 border-y border-rule py-8 sm:py-10 lg:grid-cols-[1fr_auto] lg:items-end">
+      <div>
+        <p class="eyebrow">Start a conversation</p>
+        <h2 class="mt-3 font-serif text-3xl font-medium">Discuss the matter with Doug.</h2>
+        <p class="body-copy mt-3 max-w-[58ch]">A general description and any important deadlines are enough for an initial conversation.</p>
+      </div>
+      <a href={'/contact?topic=' + service.slug} class="button-primary w-full sm:w-auto">Contact Doug <Icon name="arrow-right" class="h-4 w-4" /></a>
+    </section>
+
+    <div class="mt-12 border-t border-rule pt-8">
+      <h2 class="eyebrow">Related expertise</h2>
+      <ul class="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+        {services.filter((other) => other.slug !== service.slug).map((other) => <li><a class="text-link" href={'/services/' + other.slug}>{other.title}</a></li>)}
+      </ul>
+    </div>
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(serviceJsonLd)} is:inline />
 </Layout>

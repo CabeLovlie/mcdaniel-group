@@ -1,110 +1,150 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import FAQList from '../components/FAQList.astro';
 import HeadshotPlaceholder from '../components/HeadshotPlaceholder.astro';
-import MatterCard from '../components/MatterCard.astro';
 import ReviewField from '../components/ReviewField.astro';
-import { services } from '../data/services';
-import { site, hero, credibilityItems, counselReasons, profile, industries, representativeMatters, homeFaqs } from '../data/siteContent';
+import {
+  site,
+  hero,
+  credibilityItems,
+  expertiseGroups,
+  profile,
+  representativeEngagement,
+} from '../data/siteContent';
 
-const counselSteps = [
-  ['Define the financial question', counselReasons[0][1]],
-  ['Analyze and document the evidence', counselReasons[1][1]],
-  ['Explain the findings clearly', 'Clear reports and support through deposition or trial help financial evidence remain understandable throughout the matter.'],
-] as const;
-const homeFaqItems = [
-  homeFaqs[0],
-  homeFaqs[1],
-  ['How are confidential records shared?', homeFaqs[2][1]],
-] as const;
+const hasHeroVideo = Boolean(hero.media.videoWebm || hero.media.videoMp4);
 ---
 
-<Layout title="McDaniel Group | Forensic Accounting & Business Valuations — Bellevue, WA" description="Forensic accounting, business valuations, and economic loss analysis for attorneys and businesses. Check fit and availability with Doug McDaniel in Bellevue, Washington." canonicalPath="/">
-  <section class="page-shell pt-9 sm:pt-12 lg:pt-16">
-    <div class="grid items-center gap-8 lg:grid-cols-[1.35fr_1fr] lg:gap-14">
-      <div>
-        <p class="eyebrow">{hero.eyebrow}</p>
-        <h1 class="mt-4 font-serif text-[2.55rem] font-medium leading-[1.06] tracking-[-0.02em] sm:mt-5 sm:text-5xl lg:text-[3.65rem]">{hero.title}</h1>
-        <p class="body-copy mt-5 max-w-[50ch] sm:mt-6 sm:text-xl">{hero.statement}</p>
-        <p class="body-copy mt-4 max-w-[52ch]">{hero.body}</p>
-        <div class="mt-7 flex flex-col items-start gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
-          <a href="/contact" class="button-primary w-full sm:w-auto">Check fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a>
-          <a href={site.phoneHref} class="text-link px-1"><Icon name="phone" class="h-4 w-4" /><span class="tabular-nums">{site.phone}</span></a>
+<Layout
+  title="McDaniel Group | Forensic Accounting & Business Valuation — Bellevue, WA"
+  description="Independent forensic accounting, business valuation, economic-damages analysis, expert reporting, and testimony for counsel and closely held businesses."
+  canonicalPath="/"
+>
+  <section class="hero-media relative isolate flex min-h-[36rem] items-end overflow-hidden bg-ink text-paper sm:min-h-[40rem] lg:min-h-[44rem]">
+    <img
+      src={hero.media.poster}
+      width="1600"
+      height="1067"
+      alt={hasHeroVideo ? '' : hero.media.alt}
+      fetchpriority="high"
+      class:list={['hero-poster absolute inset-0 h-full w-full object-cover', hasHeroVideo && 'hero-poster-with-video']}
+    />
+    {hasHeroVideo && (
+      <video class="hero-video absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline preload="metadata" poster={hero.media.poster} aria-hidden="true">
+        {hero.media.videoWebm && <source src={hero.media.videoWebm} type="video/webm" />}
+        {hero.media.videoMp4 && <source src={hero.media.videoMp4} type="video/mp4" />}
+      </video>
+    )}
+    <div class="absolute inset-0 bg-black/65" aria-hidden="true"></div>
+
+    <div class="page-shell relative z-10 pb-12 pt-24 sm:pb-16 lg:pb-20">
+      <div class="max-w-[52rem]">
+        <p class="font-sans text-xs font-medium uppercase tracking-[0.15em] text-paper/80">{hero.eyebrow}</p>
+        <h1 class="mt-5 max-w-[18ch] font-serif text-[2.75rem] font-medium leading-[1.01] tracking-[-0.025em] text-paper sm:text-6xl lg:text-[4.75rem]">
+          {hero.title}
+        </h1>
+        <p class="mt-6 max-w-[49ch] font-serif text-lg leading-relaxed text-paper/85 sm:text-xl">{hero.body}</p>
+        <div class="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
+          <a href="/contact" class="button-primary w-full sm:w-auto">Discuss a matter <Icon name="arrow-right" class="h-4 w-4" /></a>
+          <a href={site.phoneHref} class="inline-flex min-h-11 items-center gap-2 font-sans text-sm text-paper underline decoration-paper/50 underline-offset-4 hover:decoration-paper">
+            <Icon name="phone" class="h-4 w-4" /><span class="tabular-nums">{site.phone}</span>
+          </a>
         </div>
-        <a href="/about" class="text-link mt-2">Meet Doug McDaniel <Icon name="arrow-right" class="h-3.5 w-3.5" /></a>
       </div>
-      <figure>
-        <img src="/images/bellevue-960.webp" srcset="/images/bellevue-640.webp 640w, /images/bellevue-960.webp 960w, /images/bellevue-1600.webp 1600w" sizes="(min-width: 1024px) 440px, (min-width: 640px) 90vw, 100vw" width="960" height="640" alt="Glass towers in downtown Bellevue beneath a cloudy Pacific Northwest sky" fetchpriority="high" class="editorial-photo aspect-[4/3] lg:aspect-[4/5]" />
-      </figure>
     </div>
   </section>
 
-  <section class="page-shell mt-8 sm:mt-10 lg:mt-14" aria-label="Credentials and location">
-    <div class="grid grid-cols-2 gap-px border border-rule bg-rule lg:grid-cols-4">
-      {credibilityItems.map((item) => <div class="min-h-24 bg-paper px-4 py-4 sm:px-5 sm:py-5"><p class:list={['font-sans text-sm font-medium leading-snug', item.review ? 'text-accent' : 'text-ink']}>{item.value}</p><p class="mt-2 font-sans text-xs leading-snug text-ink-secondary">{item.label}</p></div>)}
+  <section class="border-b border-rule" aria-label="Credentials and location">
+    <div class="page-shell grid grid-cols-2 lg:grid-cols-4">
+      {credibilityItems.map((item, index) => (
+        <div class:list={['min-h-28 py-5 pr-4 sm:py-6 lg:min-h-32 lg:px-6', index > 0 && 'border-l border-rule', index === 2 && 'border-l-0 lg:border-l']}>
+          <p class:list={['font-sans text-sm font-medium leading-snug sm:text-base', item.review ? 'text-accent' : 'text-ink']}>{item.value}</p>
+          <p class="mt-2 font-sans text-[0.7rem] font-medium uppercase tracking-[0.12em] text-ink-secondary">{item.label}</p>
+        </div>
+      ))}
     </div>
   </section>
 
-  <section id="services" class="page-shell section-space">
-    <SectionHeader number="01" title="The financial questions behind your matter" />
-    <p class="body-copy mt-5 max-w-[65ch] sm:mt-6">Whether the issue is a disputed transaction, a business interest, or a claimed loss, the work starts with a specific question and the records needed to answer it.</p>
-    <ol class="mt-6 divide-y divide-rule border-y border-rule md:hidden">
-      {services.map((service, index) => <li><a href={'/services/' + service.slug} class="flex min-h-[4.25rem] items-center gap-4 py-3 font-sans text-base font-medium text-ink hover:text-accent"><span class="w-6 shrink-0 text-sm text-accent tabular-nums">{String(index + 1).padStart(2, '0')}</span><span class="min-w-0 flex-1 leading-snug">{service.title}</span><Icon name="arrow-right" class="h-5 w-5 shrink-0" /></a></li>)}
-    </ol>
-    <ol class="mt-8 hidden gap-x-12 md:grid md:grid-cols-2">
-      {services.map((service, index) => <li class="border-t border-rule py-7"><p class="eyebrow"><span class="mr-3 text-accent tabular-nums">{String(index + 1).padStart(2, '0')}</span>{service.question}</p><h3 class="mt-3 font-serif text-2xl font-medium"><a href={'/services/' + service.slug} class="hover:text-accent">{service.title}</a></h3><p class="body-copy mt-3 max-w-[48ch]">{service.description}</p><a href={'/services/' + service.slug} class="text-link mt-2">Explore this service <Icon name="arrow-right" class="h-4 w-4" /></a></li>)}
-    </ol>
-  </section>
-
-  <section id="counsel" class="mt-12 bg-accent py-12 text-paper sm:mt-16 sm:py-16 lg:py-20">
-    <div class="page-shell grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:gap-16">
+  <section id="expertise" class="page-shell section-space scroll-mt-24">
+    <div class="grid gap-6 border-t border-rule pt-5 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16 lg:pt-6">
       <div>
-        <p class="border-b border-paper/60 pb-3 font-sans text-[0.8125rem] font-medium tracking-[0.1em] text-paper uppercase">Working with counsel</p>
-        <h2 class="mt-4 max-w-[18ch] font-serif text-3xl font-medium leading-tight sm:text-4xl">Clear analysis from first review through testimony.</h2>
-        <p class="mt-5 max-w-[46ch] font-serif text-lg leading-relaxed text-paper/85">Independent financial analysis is built around the question at issue, documented records and assumptions, and findings that can be understood when decisions matter.</p>
-        <a href="/contact" class="mt-7 inline-flex min-h-11 items-center gap-2 border border-paper/60 px-4 py-2 font-sans text-sm font-medium hover:bg-paper hover:text-accent">Discuss fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a>
+        <p class="eyebrow">Expertise</p>
+        <h2 class="mt-3 max-w-[18ch] font-serif text-3xl font-medium leading-tight sm:text-4xl">Financial analysis organized around the issue at hand.</h2>
       </div>
-      <ol class="divide-y divide-paper/25 border-y border-paper/25">
-        {counselSteps.map(([title, description], index) => <li class="grid grid-cols-[2rem_1fr] gap-3 py-5 sm:grid-cols-[2.5rem_1fr] sm:gap-5 sm:py-6"><span class="font-sans text-sm text-paper/70 tabular-nums">0{index + 1}</span><div><h3 class="font-serif text-2xl font-medium">{title}</h3><p class="mt-2 font-serif leading-relaxed text-paper/80">{description}</p></div></li>)}
-      </ol>
+      <p class="body-copy max-w-[58ch] lg:pt-7">Three connected areas of practice support investigations, valuation questions, claimed losses, and the presentation of financial evidence.</p>
     </div>
+
+    <ol class="mt-8 grid border-y border-rule lg:grid-cols-3 lg:divide-x lg:divide-rule">
+      {expertiseGroups.map((group) => (
+        <li class="group border-b border-rule py-7 last:border-b-0 lg:border-b-0 lg:px-7 lg:first:pl-0 lg:last:pr-0">
+          <p class="eyebrow text-accent">{group.number}</p>
+          <h3 class="mt-4 max-w-[16ch] font-serif text-3xl font-medium leading-tight">{group.title}</h3>
+          <p class="body-copy mt-4">{group.description}</p>
+          <ul class="mt-5 grid gap-2 border-t border-rule pt-4 font-sans text-sm text-ink-secondary">
+            {group.items.map((item) => <li>{item}</li>)}
+          </ul>
+          <a href={group.href} class="text-link mt-5">Explore this expertise <Icon name="arrow-right" class="h-4 w-4" /></a>
+        </li>
+      ))}
+    </ol>
   </section>
 
   <section class="page-shell section-space">
-    <div class="grid gap-8 sm:gap-10 lg:grid-cols-[.7fr_1.3fr] lg:gap-14">
-      <HeadshotPlaceholder name={site.contactName} class="home-headshot" />
+    <div class="grid gap-8 border-t border-rule pt-6 sm:gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+      <HeadshotPlaceholder name={site.contactName} class="home-headshot lg:min-h-[34rem]" />
       <div class="lg:self-center">
-        <p class="eyebrow">McDaniel Group · {site.location.locality}, {site.location.region}</p>
-        <h2 class="mt-3 font-serif text-4xl font-medium">{site.contactName}</h2>
-        <ReviewField value={profile.title} class="mt-2" />
-        <ReviewField value={profile.shortBio} class="mt-5 max-w-[65ch]" />
-        <dl class="mt-6 grid gap-4 border-t border-rule pt-5 sm:grid-cols-3">{profile.credentials.slice(0, 3).map(([label, value]) => <div><dt class="eyebrow">{label}</dt><dd><ReviewField value={value} class="mt-2" /></dd></div>)}</dl>
-        <div class="mt-6"><p class="eyebrow">Industries served</p><ul class="mt-3 grid grid-cols-2 gap-x-6 gap-y-2 font-sans text-sm text-ink-secondary sm:flex sm:flex-wrap sm:gap-x-7">{industries.map((industry) => <li>{industry}</li>)}</ul></div>
-        <a href="/about" class="text-link mt-6">Meet Doug and view his CV <Icon name="arrow-right" class="h-4 w-4" /></a>
+        <p class="eyebrow">The professional behind the analysis</p>
+        <h2 class="mt-3 font-serif text-4xl font-medium sm:text-5xl">{site.contactName}</h2>
+        <ReviewField value={profile.title} label="Professional title to confirm" class="mt-3 text-sm" />
+        <ReviewField value={profile.shortBio} label="Biography to confirm" class="mt-6 max-w-[62ch]" />
+        <dl class="mt-7 grid gap-5 border-y border-rule py-5 sm:grid-cols-3">
+          {profile.credentials.slice(0, 3).map(([label, value]) => (
+            <div>
+              <dt class="eyebrow">{label}</dt>
+              <dd><ReviewField value={value} label={`${label} to confirm`} class="mt-2" /></dd>
+            </div>
+          ))}
+        </dl>
+        <a href="/about" class="text-link mt-6">About Doug and professional background <Icon name="arrow-right" class="h-4 w-4" /></a>
       </div>
     </div>
   </section>
 
-  <section class="page-shell section-space">
-    <div class="flex flex-wrap items-end justify-between gap-4 border-t border-rule pt-5 sm:pt-6">
-      <div><p class="eyebrow">Representative matters</p><h2 class="mt-2 font-serif text-3xl font-medium">The financial work behind the question.</h2></div>
+  <section id="representative-work" class="page-shell section-space scroll-mt-24">
+    <div class="border-t border-rule pt-6">
+      <p class="eyebrow">Representative work</p>
+      <div class="mt-3 grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div>
+          <h2 class="max-w-[18ch] font-serif text-3xl font-medium leading-tight sm:text-4xl">One matter, shown through the work.</h2>
+          <p class="body-copy mt-5 max-w-[38ch]">{representativeEngagement.intro}</p>
+        </div>
+        <article class="border-l-2 border-accent bg-paper-dim px-5 py-6 sm:px-8 sm:py-8">
+          <p class="eyebrow text-accent">Case in point · Private review</p>
+          <h3 class="mt-3 font-serif text-3xl font-medium">{representativeEngagement.title}</h3>
+          <dl class="mt-6 divide-y divide-rule border-y border-rule">
+            {representativeEngagement.details.map(([label, value]) => (
+              <div class="grid gap-2 py-4 sm:grid-cols-[10rem_1fr] sm:gap-5">
+                <dt class="font-sans text-xs font-medium uppercase tracking-[0.1em] text-ink-secondary">{label}</dt>
+                <dd><ReviewField value={value} label={`${label} to confirm`} /></dd>
+              </div>
+            ))}
+          </dl>
+        </article>
+      </div>
     </div>
-    <p class="body-copy mt-5 max-w-[65ch]">The examples below are structured review fields. They should be replaced only with approved, anonymized descriptions.</p>
-    <div class="mt-6 md:hidden">
-      <article class="border border-rule-strong bg-paper-dim p-5"><p class="eyebrow text-accent">Featured matter</p><h3 class="mt-3 font-serif text-2xl font-medium">{representativeMatters[0].title}</h3><ReviewField value={representativeMatters[0].prompt} label="Representative matter details needed" class="mt-4" /></article>
-      <ul class="mt-2 divide-y divide-rule border-y border-rule">{representativeMatters.slice(1).map((matter) => <li class="py-4 font-serif text-xl text-ink">{matter.title}</li>)}</ul>
-    </div>
-    <div class="mt-8 hidden gap-8 md:grid md:grid-cols-3">{representativeMatters.map((matter, index) => <MatterCard {...matter} number={index + 1} />)}</div>
-  </section>
-
-  <section class="page-shell section-space">
-    <div class="border-t border-rule pt-5 sm:pt-6"><p class="eyebrow">Common questions</p><h2 class="mt-2 font-serif text-3xl font-medium">Before an initial conversation</h2></div>
-    <div class="mt-6"><FAQList items={homeFaqItems} /></div>
   </section>
 
   <section class="page-shell section-space pb-12 sm:pb-16 lg:pb-24">
-    <div class="border border-rule-strong bg-paper-dim px-5 py-8 sm:px-8 sm:py-10"><p class="eyebrow">Start a conversation</p><h2 class="mt-3 max-w-[22ch] font-serif text-3xl font-medium sm:text-4xl">Bring clarity to your financial questions.</h2><p class="body-copy mt-3 max-w-[55ch]">Share a brief overview and any key deadlines. Doug can discuss fit and availability with you.</p><div class="mt-6 flex flex-col items-start gap-3 sm:flex-row"><a href="/contact" class="button-primary w-full sm:w-auto">Check fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a><a href={site.phoneHref} class="text-link px-1"><Icon name="phone" class="h-4 w-4" />{site.phone}</a></div></div>
+    <div class="grid gap-6 border-y border-rule py-8 sm:py-10 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-12">
+      <div>
+        <p class="eyebrow">Start a conversation</p>
+        <h2 class="mt-3 max-w-[22ch] font-serif text-3xl font-medium leading-tight sm:text-4xl">Need an independent view of the financial evidence?</h2>
+        <p class="body-copy mt-3">Discuss the matter with Doug McDaniel.</p>
+      </div>
+      <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+        <a href="/contact" class="button-primary w-full sm:w-auto">Contact Doug <Icon name="arrow-right" class="h-4 w-4" /></a>
+        <a href={site.phoneHref} class="text-link px-1"><Icon name="phone" class="h-4 w-4" />{site.phone}</a>
+      </div>
+    </div>
   </section>
 </Layout>

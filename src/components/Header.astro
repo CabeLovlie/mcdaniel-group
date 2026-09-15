@@ -10,7 +10,7 @@ import { site, navLinks } from '../data/site';
       <Logo />
     </a>
 
-    <nav aria-label="Primary" class="hidden items-center gap-8 md:flex">
+    <nav aria-label="Primary" class="hidden items-center gap-8 lg:flex">
       <ul class="flex items-center gap-8">
         {navLinks.map((link) => (
           <li>
@@ -35,7 +35,7 @@ import { site, navLinks } from '../data/site';
     <button
       type="button"
       id="menu-toggle"
-      class="inline-flex h-11 w-11 items-center justify-center text-ink hover:text-accent md:hidden"
+      class="inline-flex h-11 w-11 items-center justify-center text-ink hover:text-accent lg:hidden"
       aria-controls="mobile-menu"
       aria-expanded="false"
       aria-label="Open menu"
@@ -45,7 +45,7 @@ import { site, navLinks } from '../data/site';
     </button>
   </div>
 
-  <nav id="mobile-menu" aria-label="Mobile" class="border-t border-rule bg-paper md:hidden" hidden>
+  <nav id="mobile-menu" aria-label="Mobile" class="border-t border-rule bg-paper lg:hidden" hidden>
     <ul class="mx-auto max-w-6xl space-y-1 px-4 py-4 sm:px-6">
       {navLinks.map((link) => (
         <li>
