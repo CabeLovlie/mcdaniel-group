@@ -7,22 +7,33 @@ import HeadshotPlaceholder from '../components/HeadshotPlaceholder.astro';
 import MatterCard from '../components/MatterCard.astro';
 import ReviewField from '../components/ReviewField.astro';
 import { services } from '../data/services';
-import { site, hero, credibilityItems, counselReasons, engagementProcess, profile, industries, representativeMatters, homeFaqs } from '../data/siteContent';
+import { site, hero, credibilityItems, counselReasons, profile, industries, representativeMatters, homeFaqs } from '../data/siteContent';
+
+const counselSteps = [
+  ['Define the financial question', counselReasons[0][1]],
+  ['Analyze and document the evidence', counselReasons[1][1]],
+  ['Explain the findings clearly', 'Clear reports and support through deposition or trial help financial evidence remain understandable throughout the matter.'],
+] as const;
+const homeFaqItems = [
+  homeFaqs[0],
+  homeFaqs[1],
+  ['How are confidential records shared?', homeFaqs[2][1]],
+] as const;
 ---
 
 <Layout title="McDaniel Group | Forensic Accounting & Business Valuations — Bellevue, WA" description="Forensic accounting, business valuations, and economic loss analysis for attorneys and businesses. Check fit and availability with Doug McDaniel in Bellevue, Washington." canonicalPath="/">
-  <section class="page-shell pt-12 lg:pt-16">
-    <div class="grid items-center gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-14">
+  <section class="page-shell pt-9 sm:pt-12 lg:pt-16">
+    <div class="grid items-center gap-8 lg:grid-cols-[1.35fr_1fr] lg:gap-14">
       <div>
         <p class="eyebrow">{hero.eyebrow}</p>
-        <h1 class="mt-5 font-serif text-[2.6rem] font-medium leading-[1.08] tracking-[-0.02em] sm:text-5xl lg:text-[3.65rem]">{hero.title}</h1>
-        <p class="body-copy mt-6 max-w-[50ch] sm:text-xl">{hero.statement}</p>
+        <h1 class="mt-4 font-serif text-[2.55rem] font-medium leading-[1.06] tracking-[-0.02em] sm:mt-5 sm:text-5xl lg:text-[3.65rem]">{hero.title}</h1>
+        <p class="body-copy mt-5 max-w-[50ch] sm:mt-6 sm:text-xl">{hero.statement}</p>
         <p class="body-copy mt-4 max-w-[52ch]">{hero.body}</p>
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <a href="/contact" class="button-primary">Check fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a>
-          <a href={site.phoneHref} class="button-secondary"><Icon name="phone" class="h-4 w-4" /><span class="tabular-nums">{site.phone}</span></a>
+        <div class="mt-7 flex flex-col items-start gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
+          <a href="/contact" class="button-primary w-full sm:w-auto">Check fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a>
+          <a href={site.phoneHref} class="text-link px-1"><Icon name="phone" class="h-4 w-4" /><span class="tabular-nums">{site.phone}</span></a>
         </div>
-        <a href="/about" class="text-link mt-4">Meet Doug McDaniel <Icon name="arrow-right" class="h-3.5 w-3.5" /></a>
+        <a href="/about" class="text-link mt-2">Meet Doug McDaniel <Icon name="arrow-right" class="h-3.5 w-3.5" /></a>
       </div>
       <figure>
         <img src="/images/bellevue-960.webp" srcset="/images/bellevue-640.webp 640w, /images/bellevue-960.webp 960w, /images/bellevue-1600.webp 1600w" sizes="(min-width: 1024px) 440px, (min-width: 640px) 90vw, 100vw" width="960" height="640" alt="Glass towers in downtown Bellevue beneath a cloudy Pacific Northwest sky" fetchpriority="high" class="editorial-photo aspect-[4/3] lg:aspect-[4/5]" />
@@ -30,66 +41,70 @@ import { site, hero, credibilityItems, counselReasons, engagementProcess, profil
     </div>
   </section>
 
-  <section class="page-shell mt-10 lg:mt-14" aria-label="Review credentials and location">
-    <div class="grid gap-px border-y border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
-      {credibilityItems.map((item) => <div class="min-h-20 bg-paper px-5 py-5"><ReviewField value={item.label} label={item.review ? 'Review credential' : 'Location'} /></div>)}
+  <section class="page-shell mt-8 sm:mt-10 lg:mt-14" aria-label="Credentials and location">
+    <div class="grid grid-cols-2 gap-px border border-rule bg-rule lg:grid-cols-4">
+      {credibilityItems.map((item) => <div class="min-h-24 bg-paper px-4 py-4 sm:px-5 sm:py-5"><p class:list={['font-sans text-sm font-medium leading-snug', item.review ? 'text-accent' : 'text-ink']}>{item.value}</p><p class="mt-2 font-sans text-xs leading-snug text-ink-secondary">{item.label}</p></div>)}
     </div>
   </section>
 
   <section id="services" class="page-shell section-space">
     <SectionHeader number="01" title="The financial questions behind your matter" />
-    <p class="body-copy mt-6 max-w-[65ch]">Whether the issue is a disputed transaction, a business interest, or a claimed loss, the work starts with a specific question and the records needed to answer it.</p>
-    <ol class="mt-8 grid gap-x-12 md:grid-cols-2">
+    <p class="body-copy mt-5 max-w-[65ch] sm:mt-6">Whether the issue is a disputed transaction, a business interest, or a claimed loss, the work starts with a specific question and the records needed to answer it.</p>
+    <ol class="mt-6 divide-y divide-rule border-y border-rule md:hidden">
+      {services.map((service, index) => <li><a href={'/services/' + service.slug} class="flex min-h-[4.25rem] items-center gap-4 py-3 font-sans text-base font-medium text-ink hover:text-accent"><span class="w-6 shrink-0 text-sm text-accent tabular-nums">{String(index + 1).padStart(2, '0')}</span><span class="min-w-0 flex-1 leading-snug">{service.title}</span><Icon name="arrow-right" class="h-5 w-5 shrink-0" /></a></li>)}
+    </ol>
+    <ol class="mt-8 hidden gap-x-12 md:grid md:grid-cols-2">
       {services.map((service, index) => <li class="border-t border-rule py-7"><p class="eyebrow"><span class="mr-3 text-accent tabular-nums">{String(index + 1).padStart(2, '0')}</span>{service.question}</p><h3 class="mt-3 font-serif text-2xl font-medium"><a href={'/services/' + service.slug} class="hover:text-accent">{service.title}</a></h3><p class="body-copy mt-3 max-w-[48ch]">{service.description}</p><a href={'/services/' + service.slug} class="text-link mt-2">Explore this service <Icon name="arrow-right" class="h-4 w-4" /></a></li>)}
     </ol>
   </section>
 
-  <section id="counsel" class="page-shell section-space">
-    <SectionHeader number="02" title="Why counsel works with McDaniel Group" />
-    <div class="mt-8 grid gap-8 md:grid-cols-2">
-      {counselReasons.map(([title, description], index) => <article class="border-t border-rule py-6"><p class="eyebrow text-accent">0{index + 1}</p><h3 class="mt-3 font-serif text-2xl font-medium">{title}</h3><p class="body-copy mt-3">{description}</p></article>)}
+  <section id="counsel" class="mt-12 bg-accent py-12 text-paper sm:mt-16 sm:py-16 lg:py-20">
+    <div class="page-shell grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:gap-16">
+      <div>
+        <p class="eyebrow text-paper/75">Working with counsel</p>
+        <h2 class="mt-4 max-w-[18ch] font-serif text-3xl font-medium leading-tight sm:text-4xl">Clear analysis from first review through testimony.</h2>
+        <p class="mt-5 max-w-[46ch] font-serif text-lg leading-relaxed text-paper/85">Independent financial analysis is built around the question at issue, documented records and assumptions, and findings that can be understood when decisions matter.</p>
+        <a href="/contact" class="mt-7 inline-flex min-h-11 items-center gap-2 border border-paper/60 px-4 py-2 font-sans text-sm font-medium hover:bg-paper hover:text-accent">Discuss fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a>
+      </div>
+      <ol class="divide-y divide-paper/25 border-y border-paper/25">
+        {counselSteps.map(([title, description], index) => <li class="grid grid-cols-[2rem_1fr] gap-3 py-5 sm:grid-cols-[2.5rem_1fr] sm:gap-5 sm:py-6"><span class="font-sans text-sm text-paper/70 tabular-nums">0{index + 1}</span><div><h3 class="font-serif text-2xl font-medium">{title}</h3><p class="mt-2 font-serif leading-relaxed text-paper/80">{description}</p></div></li>)}
+      </ol>
     </div>
   </section>
 
   <section class="page-shell section-space">
-    <SectionHeader number="03" title="Engagement process" />
-    <ol class="mt-8 grid divide-y divide-rule border-y border-rule lg:grid-cols-4 lg:divide-x lg:divide-y-0">
-      {engagementProcess.map(([title, description], index) => <li class="p-6 first:pl-0 lg:first:pl-0"><p class="eyebrow text-accent">0{index + 1}</p><h3 class="mt-3 font-serif text-2xl font-medium">{title}</h3><p class="body-copy mt-3">{description}</p></li>)}
-    </ol>
-  </section>
-
-  <section class="page-shell section-space">
-    <SectionHeader number="04" title="Meet Doug McDaniel" />
-    <div class="mt-8 grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:gap-14">
-      <HeadshotPlaceholder name={site.contactName} />
-      <div>
+    <div class="grid gap-8 sm:gap-10 lg:grid-cols-[.7fr_1.3fr] lg:gap-14">
+      <HeadshotPlaceholder name={site.contactName} class="home-headshot" />
+      <div class="lg:self-center">
         <p class="eyebrow">McDaniel Group · {site.location.locality}, {site.location.region}</p>
-        <h3 class="mt-4 font-serif text-4xl font-medium">{site.contactName}</h3>
+        <h2 class="mt-3 font-serif text-4xl font-medium">{site.contactName}</h2>
         <ReviewField value={profile.title} class="mt-2" />
-        <ReviewField value={profile.shortBio} class="mt-6 max-w-[70ch]" />
-        <dl class="mt-8 grid gap-6 border-t border-rule pt-6 sm:grid-cols-2">{profile.credentials.slice(0, 4).map(([label, value]) => <div><dt class="eyebrow">{label}</dt><dd><ReviewField value={value} class="mt-2" /></dd></div>)}</dl>
-        <div class="mt-7 flex flex-wrap gap-4"><a href="/about" class="button-secondary">View full profile <Icon name="arrow-right" class="h-4 w-4" /></a><span class="button-secondary opacity-60">{profile.cv.label} <span class="text-xs">(review field)</span></span></div>
+        <ReviewField value={profile.shortBio} class="mt-5 max-w-[65ch]" />
+        <dl class="mt-6 grid gap-4 border-t border-rule pt-5 sm:grid-cols-3">{profile.credentials.slice(0, 3).map(([label, value]) => <div><dt class="eyebrow">{label}</dt><dd><ReviewField value={value} class="mt-2" /></dd></div>)}</dl>
+        <div class="mt-6"><p class="eyebrow">Industries served</p><ul class="mt-3 grid grid-cols-2 gap-x-6 gap-y-2 font-sans text-sm text-ink-secondary sm:flex sm:flex-wrap sm:gap-x-7">{industries.map((industry) => <li>{industry}</li>)}</ul></div>
+        <a href="/about" class="text-link mt-6">Meet Doug and view his CV <Icon name="arrow-right" class="h-4 w-4" /></a>
       </div>
     </div>
   </section>
 
   <section class="page-shell section-space">
-    <SectionHeader number="05" title="Industries served" />
-    <ul class="mt-6 flex flex-wrap gap-x-8 gap-y-3 font-serif text-xl text-ink-secondary">{industries.map((industry) => <li>{industry}</li>)}</ul>
+    <div class="flex flex-wrap items-end justify-between gap-4 border-t border-rule pt-5 sm:pt-6">
+      <div><p class="eyebrow">Representative matters</p><h2 class="mt-2 font-serif text-3xl font-medium">The financial work behind the question.</h2></div>
+    </div>
+    <p class="body-copy mt-5 max-w-[65ch]">The examples below are structured review fields. They should be replaced only with approved, anonymized descriptions.</p>
+    <div class="mt-6 md:hidden">
+      <article class="border border-rule-strong bg-paper-dim p-5"><p class="eyebrow text-accent">Featured matter</p><h3 class="mt-3 font-serif text-2xl font-medium">{representativeMatters[0].title}</h3><ReviewField value={representativeMatters[0].prompt} label="Representative matter details needed" class="mt-4" /></article>
+      <ul class="mt-2 divide-y divide-rule border-y border-rule">{representativeMatters.slice(1).map((matter) => <li class="py-4 font-serif text-xl text-ink">{matter.title}</li>)}</ul>
+    </div>
+    <div class="mt-8 hidden gap-8 md:grid md:grid-cols-3">{representativeMatters.map((matter, index) => <MatterCard {...matter} number={index + 1} />)}</div>
   </section>
 
   <section class="page-shell section-space">
-    <SectionHeader number="06" title="Representative matters" />
-    <p class="body-copy mt-6 max-w-[65ch]">The examples below are structured review fields. They should be replaced only with approved, anonymized descriptions.</p>
-    <div class="mt-8 grid gap-8 md:grid-cols-3">{representativeMatters.map((matter, index) => <MatterCard {...matter} number={index + 1} />)}</div>
+    <div class="border-t border-rule pt-5 sm:pt-6"><p class="eyebrow">Common questions</p><h2 class="mt-2 font-serif text-3xl font-medium">Before an initial conversation</h2></div>
+    <div class="mt-6"><FAQList items={homeFaqItems} /></div>
   </section>
 
-  <section class="page-shell section-space">
-    <SectionHeader number="07" title="Questions before an initial conversation" />
-    <div class="mt-8"><FAQList items={homeFaqs} /></div>
-  </section>
-
-  <section class="page-shell section-space pb-16 lg:pb-24">
-    <div class="grid gap-8 border-y border-rule py-10 md:grid-cols-[1fr_auto] md:items-center"><div><p class="eyebrow">Start a conversation</p><h2 class="mt-3 font-serif text-3xl font-medium sm:text-4xl">Bring clarity to your financial questions.</h2><p class="body-copy mt-3 max-w-[60ch]">Share a brief overview and any key deadlines. Doug can discuss fit and availability with you.</p></div><a href="/contact" class="button-primary">Check fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a></div>
+  <section class="page-shell section-space pb-12 sm:pb-16 lg:pb-24">
+    <div class="border border-rule-strong bg-paper-dim px-5 py-8 sm:px-8 sm:py-10"><p class="eyebrow">Start a conversation</p><h2 class="mt-3 max-w-[22ch] font-serif text-3xl font-medium sm:text-4xl">Bring clarity to your financial questions.</h2><p class="body-copy mt-3 max-w-[55ch]">Share a brief overview and any key deadlines. Doug can discuss fit and availability with you.</p><div class="mt-6 flex flex-col items-start gap-3 sm:flex-row"><a href="/contact" class="button-primary w-full sm:w-auto">Check fit and availability <Icon name="arrow-right" class="h-4 w-4" /></a><a href={site.phoneHref} class="text-link px-1"><Icon name="phone" class="h-4 w-4" />{site.phone}</a></div></div>
   </section>
 </Layout>

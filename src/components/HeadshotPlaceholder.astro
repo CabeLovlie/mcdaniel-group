@@ -1,9 +1,9 @@
 ---
 import Icon from './Icon.astro';
-interface Props { name: string; }
-const { name } = Astro.props;
+interface Props { name: string; class?: string; }
+const { name, class: className = '' } = Astro.props;
 ---
-<div class="headshot-placeholder" role="img" aria-label={`${name} headshot placeholder`}>
+<div class:list={['headshot-placeholder', className]} role="img" aria-label={`${name} headshot placeholder`}>
   <Icon name="users" class="h-12 w-12 text-accent" />
   <p class="mt-4 font-serif text-2xl text-ink">Portrait to be supplied</p>
   <p class="mt-2 max-w-[24ch] text-center font-sans text-xs leading-relaxed text-ink-secondary">Use a professional, current headshot with approval to publish.</p>
